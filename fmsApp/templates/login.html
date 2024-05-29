@@ -82,18 +82,22 @@
                 dataType: 'json',
                 error: err => {
                     console.log(err)
-                    alert_toast("An error occured", 'error');
+                    alert_toast("An error occurred", 'error');
                     end_loader();
                 },
                 success: function(resp) {
+                    console.log('***********', resp)
                     if (typeof resp == 'object' && resp.status == 'success') {
                         el.removeClass("alert alert-danger err-msg")
-                        location.href = "{% url 'home-page' %}"
+                        if (resp.is_staff) {
+                            location.href = "{% url 'dashboard' %}";
+                        } else {
+                            location.href = "{% url 'home-page' %}";
+                        }
                     } else if (resp.status == 'failed' && !!resp.msg) {
                         el.text(resp.msg)
                     } else {
-                        el.text("An error occured", 'error');
-                        end_loader();
+                        el.text("An error occurred", 'error');
                         console.err(resp)
                     }
                     _this.prepend(el)
@@ -104,5 +108,6 @@
             })
         })
     })
+    
 </script>
 {% endblock ScriptBlock %}

@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import login as dj_login
 from django.http import  HttpResponseRedirect
+from fmsApp.models import Post
+from user_app.constant import superuser_required
 from user_app.forms import LoginForm 
 from .forms import SignUpForm
 import datetime
@@ -28,7 +30,7 @@ def index(request):
         
         if form.is_valid():
             user = form.save(commit=True)
-            return redirect('/user-login')
+            return redirect('/login')
         else:
             # Check if the email error occurred
             if 'email' in form.errors:
@@ -68,6 +70,8 @@ def user_login(request):
 def upload_file(request):
     return render(request,'adminpanel/upload_file.html')
 
+@login_required(login_url='login')
+@superuser_required()
 def dashboard(request):
     today = datetime.datetime.now()
     current_month = today.month
@@ -76,6 +80,7 @@ def dashboard(request):
     user_list = []
     active_user_list = []
     inactive_user_list = []
+    post_list = []
 
     for m in range(current_month):
         months = m+1
@@ -90,13 +95,19 @@ def dashboard(request):
                                         is_active=False,
                                         date_joined__month=months, 
                                         date_joined__year=current_year)
+        total_post_list = Post.objects.filter(
+                                        date_created__month=months, 
+                                        date_created__year=current_year)
+        
         user_list.append(total_user_graph)
         active_user_list.append(total_active_user_graph)
         inactive_user_list.append(total_inactive_user_graph)
+        post_list.append(total_post_list)
 
     total_profile = User.objects.filter(is_staff=False).count()
     total_active_user = User.objects.filter(is_active=True, is_staff=False).count()
     total_inactive_user = User.objects.filter(is_active=False, is_staff=False).count()
+    total_post_count = Post.objects.all().count()
     context ={
         'month_list': month_list,
         'user_list': user_list,
@@ -105,19 +116,22 @@ def dashboard(request):
         'total_profile': total_profile, 
         'total_active_user': total_active_user, 
         'total_inactive_user': total_inactive_user, 
-
+        'post_list': post_list, 
+        'total_post_count':total_post_count
 
     }
 
     return render(request,'adminpanel/dashboard.html', context)
 
+
 def logout(request):
     auth_logout(request)
-    return redirect('/user-login')
+    return redirect('/login')
 
 
 # admin view all Profiles
-@login_required(login_url='admin_panel_login')
+@login_required(login_url='login')
+@superuser_required()
 def admin_panel_view_users(request):   
     all_profiles = User.objects.filter(is_staff=False).order_by('-date_joined')
     paginator = Paginator(all_profiles, 50)
@@ -129,7 +143,8 @@ def admin_panel_view_users(request):
     return render(request, 'adminpanel/total_user.html', context)
 
 # admin search user
-@login_required(login_url='admin_panel_login')
+@login_required(login_url='login')
+@superuser_required()
 def admin_panel_search_user(request):
     get_first_name = request.GET.get('first_name')
     get_last_name= request.GET.get('last_name')
@@ -195,7 +210,8 @@ def admin_panel_search_user(request):
     return render(request, 'adminpanel/search_user.html', context)
 
 # admin delete user
-@login_required(login_url='admin_panel_login')
+@login_required(login_url='login')
+@superuser_required()
 def admin_panel_delete_user(request):
     if request.method == 'POST':
         id = request.POST.get('aid')
@@ -205,7 +221,8 @@ def admin_panel_delete_user(request):
     return JsonResponse({'status': False})
 
 # admin block user
-@login_required(login_url='admin_panel_login')
+@login_required(login_url='login')
+@superuser_required()
 def admin_panel_block_user(request):
     if request.method == 'POST':
         id = request.POST.get('aid')
@@ -222,7 +239,8 @@ def admin_panel_block_user(request):
 
 
 # admin view active user
-@login_required(login_url='admin_panel_login')
+@login_required(login_url='login')
+@superuser_required()
 def admin_panel_view_active_user(request):
     all_profiles = User.objects.filter(is_active=True, is_staff=False).order_by('-date_joined')
     paginator = Paginator(all_profiles, 50)
@@ -234,7 +252,8 @@ def admin_panel_view_active_user(request):
     return render(request, 'adminpanel/total_active_user.html', context)
 
 # admin search  active user
-@login_required(login_url='admin_panel_login')
+@login_required(login_url='login')
+@superuser_required()
 def admin_panel_search_active_user(request):
     get_first_name = request.GET.get('first_name')
     get_last_name = request.GET.get('last_name')
@@ -271,7 +290,8 @@ def admin_panel_search_active_user(request):
     return render(request, 'adminpanel/search_active_user.html', context)
 
 # admin delete active user
-@login_required(login_url='admin_panel_login')
+@login_required(login_url='login')
+@superuser_required()
 def admin_panel_delete_active_user(request):
     if request.method == 'POST':
         id = request.POST.get('aid')
@@ -281,7 +301,8 @@ def admin_panel_delete_active_user(request):
     return JsonResponse({'status': False})
 
 # admin view inactive user
-@login_required(login_url='admin_panel_login')
+@login_required(login_url='login')
+@superuser_required()
 def admin_panel_view_inactive_user(request):
     all_users = User.objects.filter(is_active=False, is_staff=False)
     paginator = Paginator(all_users, 50)
@@ -293,7 +314,8 @@ def admin_panel_view_inactive_user(request):
     return render(request, 'adminpanel/total_inactive_user.html', context)
 
 # admin search inactive user
-@login_required(login_url='admin_panel_login')
+@login_required(login_url='login')
+@superuser_required()
 def admin_panel_search_inactive_user(request):
     get_first_name = request.GET.get('first_name')
     get_last_name = request.GET.get('last_name')

@@ -31,7 +31,19 @@
 
 <body class="">
 
-    {% block TopNavigation %} {% include "TopNavigation.html" %} {% endblock TopNavigation %}
+    {% if request.user and  request.user.is_staff %}
+    {% include "base2.html" %}
+    {% endif %}
+
+
+    {% block TopNavigation %} 
+
+    {% if not request.user.is_staff%}
+    {% include "TopNavigation.html" %} 
+    {% endif %}
+
+    {% endblock TopNavigation %}
+
     <main class="py-5">
         <div class="container mb-3">
             {% if messages %}

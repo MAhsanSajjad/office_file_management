@@ -6,7 +6,7 @@
         <div class="d-flex">
             <!-- LOGO -->
             <div class="navbar-brand-box">
-                <a href="{% url 'user-login' %}" class="logo logo-dark">
+                <a href="{% url 'login' %}" class="logo logo-dark">
                     <span class="logo-sm">
                         <img src="{% static 'adminpanel/yo-logo.png' %}" alt="" height="22">
                     </span>
@@ -15,7 +15,7 @@
                     </span>
                 </a>
 
-                <a href="{% url 'user-login' %}" class="logo logo-light">
+                <a href="{% url 'login' %}" class="logo logo-light">
                     <span class="logo-sm">
                         <img src="{% static 'adminpanel/yo-logo.png' %}" alt="" height="22">
                     </span>
@@ -85,7 +85,7 @@
             </div>
             {% else %}
     
-            <a href="{% url 'user-login' %}">
+            <a href="{% url 'login' %}">
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown">
                     <i class="bx bx-log-in font-size-16 align-middle me-1 "></i>            
                     <span class="d-none d-xl-inline-block ms-1" key="t-henry">Login</span>

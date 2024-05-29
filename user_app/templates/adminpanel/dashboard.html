@@ -118,6 +118,31 @@ Dashboard
               </div>
             </div>
           </div>
+          <div class="row">
+            <div class="col">
+
+              <div class="card mini-stats-wid">
+                <a href="{% url 'posts-page' %}">
+                  <div class="card-body">
+                    <div class="d-flex">
+                      <div class="flex-grow-1">
+                        <p class="text-muted fw-medium">Total Files</p>
+                        <h4 class="mb-0">{{total_post_count}}</h4>
+                      </div>
+
+                      <div class="flex-shrink-0 align-self-center">
+                        <div class="avatar-sm rounded-circle bg-primary mini-stat-icon">
+                          <span class="avatar-title rounded-circle bg-success">
+                            <i class="fa fa-user font-size-24"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
 
         </div>
 
@@ -150,7 +175,7 @@ Dashboard
 <script>
 
 // user chart
-  var options={chart:{height:350,type:"line",zoom:{enabled:!1},toolbar:{show:!1}},
+  var options={chart:{height:485,type:"bar",zoom:{enabled:!1},toolbar:{show:!1}},
   colors:["#556ee6","#f46a6a","#34c38f", '#FF69B4'],
   dataLabels:{enabled:!1},stroke:{width:[3,4,3],curve:"straight",dashArray:[0,8,5]},
   series:[
@@ -170,7 +195,7 @@ Dashboard
                                       
                                       {% endfor %}]},
 
-  {name:"User Post",data:[{% for i in post_list %}
+  {name:"Total files",data:[{% for i in post_list %}
   
                             {{i.count}},  
                         

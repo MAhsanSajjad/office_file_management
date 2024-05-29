@@ -19,7 +19,7 @@ context = {
 #login
 def login_user(request):
     logout(request)
-    resp = {"status":'failed','msg':''}
+    resp = {"status":'failed','msg':'', 'is_staff':False}
     username = ''
     password = ''
     if request.POST:
@@ -31,10 +31,13 @@ def login_user(request):
             if user.is_active:
                 login(request, user)
                 resp['status']='success'
+                resp['is_staff'] = user.is_staff if user.is_staff else False
+                
             else:
                 resp['msg'] = "Incorrect username or password"
         else:
             resp['msg'] = "Incorrect username or password"
+    print('********', json.dumps(resp))
     return HttpResponse(json.dumps(resp),content_type='application/json')
 
 #Logout
