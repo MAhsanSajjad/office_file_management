@@ -1,0 +1,91 @@
+{% extends 'adminpanel/base.html'%}
+
+{% block title %}
+Admin Login
+{% endblock %}
+
+{% block content %}
+
+<div class="loader_bg">
+    <div class="loader"></div>
+</div>
+
+{% include 'adminpanel/partial/navbar2.html'%}
+
+
+<div class="account-pages my-3 pt-sm-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="text-center mb-5 text-muted">
+           
+
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6 col-xl-5">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="p-2">
+                            <div class="avatar-md mx-auto">
+                                <div class="avatar-title rounded-circle bg-light">
+                                    <i class="fa fa-user h1 mb-0 text-success"></i>
+                                </div>
+                            </div>
+                            <div class="p-2 mt-4">
+                                <h4 class="text-success">Login</h4>
+
+                                {% if form.non_field_errors %}
+                                <ul class='form-errors'>
+                                    {% for error in form.non_field_errors %}
+                                    <li class="text-danger">{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
+
+                                <div class="mt-4">
+                                    <form method="post">
+                                        {% csrf_token %}
+                                        <div class="mb-3">
+                                            <label class="form-label">Email</label>
+                                            <div class="input-group auth-pass-inputgroup">
+
+                                                {{form.email}}
+
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Password</label>
+                                            <div class="input-group auth-pass-inputgroup">
+                                                {{form.password}}
+                                                <button class="btn btn-light password-addon" type="button"><i
+                                                        class="mdi mdi-eye-outline"></i></button>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="text-left mt-2 mb-2">
+                                            Don't Have an account<a  href="{% url 'register' %}"> Register here</a>
+
+                                        </div>
+                                        <div class="text-left mt-2 mb-2">
+                                            <a  href="{% url 'reset_password' %}"> Reset password here</a>
+
+                                        </div>
+
+                                        <div class="text-end">
+                                            <button class="btn btn-success w-md waves-effect waves-light"
+                                                type="submit">Login Now</button>
+                                        </div>
+                                    </form>
+                              
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% endblock %}

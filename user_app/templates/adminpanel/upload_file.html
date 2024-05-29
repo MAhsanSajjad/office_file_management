@@ -1,0 +1,229 @@
+{% extends 'adminpanel/base.html' %}
+{% load static %}
+{% block title %}
+product
+{% endblock %}
+
+{% block content %}
+<style>
+
+
+    .dz-message i {
+        font-size: 4em;
+        color: #ccc;
+    }
+
+    .dz-upload-btn {
+        display: none;
+    }
+
+    .choose-file-btn {
+        cursor: pointer;
+        background-color: #536480;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 5px;
+    }
+
+    #selected-image {
+            max-width: 150px; 
+            max-height: 150px;
+            display: none;
+        }
+
+</style>
+
+<div class="container-fluid">
+    <!-- start page title -->
+    <div class="row" >
+        <div class="col-12" >
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0 font-size-18 text-white">Add Product</h4>
+
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);" class="text-white">Ecommerce</a></li>
+                        <li class="breadcrumb-item  text-white active">Add Product</li>
+                    </ol>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- end page title -->
+
+    <div class="row" >
+        <div class="col-12" >
+            <div class="card">
+                <div class="card-body" >
+
+                    <h4 class="card-title">Basic Information</h4>
+                    <p class="card-title-desc text-white">Fill all information below</p>
+
+                    <form  method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-sm-6" >
+                                <div class="mb-3">
+                                    <label for="productname">Product Name</label>
+                                    <input required id="productname" name="name" type="text" class="form-control" placeholder="Product Name" >
+                                </div>
+                                <div class="mb-3">
+                                    <label for="manufacturername">Video (link)</label>
+                                    <input id="manufacturername" name="video_link" type="text" class="form-control" placeholder="link" >
+                                </div>
+                                <div class="mb-3">
+                                    <label for="manufacturerbrand">Code Number</label>
+                                    <input id="manufacturerbrand" name="code_no" type="text" class="form-control" placeholder="code number" >
+                                </div>
+                                <div class="mb-3">
+                                    <label class="control-label">Product Price</label>
+                                    <input required id="manufacturername" name="price" type="number" class="form-control" placeholder="price" >
+
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="mb-3">
+                                    <label for="price">Calliper</label>
+                                    <input id="price" name="calliper" type="text" class="form-control" placeholder="Calliper" >
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="control-label">CE Category</label>
+                                    <input id="manufacturername" name="ce_categroy" type="text" class="form-control" placeholder="CE category" >
+
+                                </div>
+                                <div class="mb-3">
+                                    <label class="control-label">ADR Category</label>
+                                    <input id="manufacturername" name="adr_category" type="text" class="form-control" placeholder="ADR category" >
+
+    
+                                </div>
+                                <div class="mb-3">
+                                    <label class="control-label">Discount</label>
+                                    <input id="manufacturername" name="discount" type="number" class="form-control" placeholder="discount" >
+
+    
+                                </div>
+
+                                
+                            </div>
+                        </div>
+
+                        <div class="mb-3" style="background-color: #2a3042;">
+                            <label for="productdesc" style="color: #ffffff;">Product Description</label>
+                            <textarea id="elm1" name="description" ></textarea>
+                        </div>
+                        
+                </div>
+            </div>
+
+            <div class="card" >
+                <div class="card-body" >
+
+                    <h4 class="card-title">Product Details</h4>
+
+                        <div class="row" >
+                            <div class="col-sm-6" >
+                                <div class="mb-3">
+                                    <label for="metatitle">Packing</label>
+                                    <input id="metatitle" name="packing" type="text" class="form-control" placeholder="packing" >
+                                </div>
+                                <div class="mb-3">
+                                    <label for="metakeywords">Number Of Sales Units In A Carton</label>
+                                    <input id="metakeywords" name="no_of_items" type="number" class="form-control" placeholder="number sales units" >
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="mb-3">
+                                    <label for="metadescription">Shots Number</label>
+                                    <input id="metakeywords" name="shots_no" type="text" class="form-control" placeholder="shot number" >
+                                </div>
+                            </div>
+                        </div>
+
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Product Image</h4>
+                    <div class="dz-message needsclick">
+                        <div class="mb-3">
+                            <i class="display-4 text-muted bx bxs-cloud-upload"></i>
+                        </div>
+                        <label for="imageInput" class="choose-file-btn">Choose a File</label>
+                        <input  type="file" id="imageInput" name="image" class="dropzone dz-clickable dz-upload-btn" value="">
+                        <h4>or</h4>
+                        <p>Drag and drop files here</p>
+                    </div>
+                    <br>
+                    <img class="rounded" id="selected-image" src="" alt="Selected Image">
+                </div>
+            </div>
+
+            <div class="card" >
+                <div class="card-body" >
+
+                    <h4 class="card-title">Product Layout</h4>
+
+                        <div class="row" >
+                            <div class="col-sm-6" >
+                                <div class="mb-3">
+                                    <label for="metatitle">Effect Layout</label>
+                                    <input id="metatitle" name="effect_layout" type="text" class="form-control" placeholder="effect layout" >
+                                </div>
+                                <div class="mb-3">
+                                    <label for="metadescription">Depth</label>
+                                    <input id="metakeywords" name="depth" type="number" class="form-control" placeholder="depth" >
+                                </div>
+                                <div class="mb-3">
+                                    <label for="metakeywords">Height</label>
+                                    <input id="metakeywords" name="height" type="number" class="form-control" placeholder="height" >
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="mb-3">
+                                    <label for="metakeywords">Duration Of The Effect</label>
+                                    <input id="metakeywords" name="duration_effect" type="text" class="form-control" placeholder="duration" >
+                                </div>
+                                <div class="mb-3">
+                                    <label for="metadescription">Width</label>
+                                    <input id="metakeywords" name="width" type="number" class="form-control" placeholder="width" >
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-wrap gap-2">
+                            <button type="submit" class="btn btn-primary waves-effect waves-light">Create</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end row -->
+
+</div>
+<script>
+    const imageInput = document.getElementById("imageInput");
+    const selectedImage = document.getElementById("selected-image");
+
+    imageInput.addEventListener("change", function () {
+        const file = imageInput.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                selectedImage.src = e.target.result;
+                selectedImage.style.display = "block";
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,110 @@
+    {% extends 'adminpanel/base.html' %}
+
+{% block title %}
+Admin Signup
+{% endblock %}
+
+{% block content %}
+
+<div class="loader_bg">
+    <div class="loader"></div>
+</div>
+
+{% include 'adminpanel/partial/navbar2.html' %}
+
+
+
+<div class="account-pages my-3 pt-sm-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="text-center mb-5 text-muted">
+                </div>
+            </div>
+        </div>
+        <!-- end row -->
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6 col-xl-5">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="p-2">
+                            <div class="avatar-md mx-auto">
+                                <div class="avatar-title rounded-circle bg-light">
+                                    <i class="fa fa-user h1 mb-0 text-success"></i>
+                                </div>
+                            </div>
+                            <div class="p-2 mt-4">
+                                <h4 class="text-success">Sign Up</h4>
+
+          
+                                {% if custom_message %}
+                                <ul class='form-errors'>
+                                    <li class="text-danger">{{ custom_message }}</li>
+                                </ul>
+                                {% endif %}
+
+                                <div class="mt-4">
+                                    <form method="post">
+                                        {% csrf_token %}
+
+                                        <div class="mb-3">
+                                            <label class="form-label">First Name</label>
+                                            <div class="input-group auth-pass-inputgroup">
+                                                {{ form.first_name }}
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Last Name</label>
+                                            <div class="input-group auth-pass-inputgroup">
+                                                {{ form.last_name }}
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Email</label>
+                                            <div class="input-group auth-pass-inputgroup">
+                                                {{ form.email }}
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Password</label>
+                                            <div class="input-group auth-pass-inputgroup">
+                                                {{ form.password1 }}
+                                            </div>
+                                        </div>
+                                        <span class="toggle-btn" onclick="togglePasswordVisibility()">👁️</span>
+                                    </div>
+                                    <script>
+                                      function togglePasswordVisibility() {
+                                          var passwordInput = document.getElementById("exampleInputPassword1");
+                                          if (passwordInput.type === "password") {
+                                              passwordInput.type = "text";
+                                          } else {
+                                              passwordInput.type = "password";
+                                          }
+                                      }
+                                  </script>
+                  
+                                        <div class="mb-3">
+                                            <label class="form-label">Confirm Password</label>
+                                            <div class="input-group auth-pass-inputgroup">
+                                                {{ form.password2 }}
+                                            </div>
+                                        </div>
+                                        <div class="text-center mt-2 mb-2">
+                                            if you have an account signin here <a  href="{% url 'user-login' %}"> Register here</a>
+
+                                        </div>
+                                        <div class="text-end">
+                                            <button class="btn btn-success w-md waves-effect waves-light"
+                                                type="submit">Sign Up</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% endblock %}

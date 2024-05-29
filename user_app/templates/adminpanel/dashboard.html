@@ -1,0 +1,191 @@
+{% extends 'adminpanel/base.html' %}
+
+{% block title %}
+Dashboard
+{% endblock %}
+
+{% block content %}
+
+<div class="loader_bg">
+  <div class="loader"></div>
+</div>
+
+{% include 'adminpanel/partial/navbar.html' %}
+{% include 'adminpanel/partial/leftnavbar.html' %}
+
+
+<script src="#"></script>
+
+
+<br>
+<div class="main-content">
+  <div class="page-content">
+    <div class="container-fluid">
+
+
+      <h4 class="mb-sm-0 font-size-18">Dashboard</h4>
+      <div class="row">
+        <div class="col-12">
+          <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0 font-size-18"></h4>
+
+            <div class="page-title-right">
+
+            </div>
+          </div>
+        </div>
+
+
+
+
+      <div class="row">
+
+        <div class="col-xl-3">
+          <div class="row">
+            <div class="col">
+              <div class="card mini-stats-wid">
+                <a href="{% url 'admin_panel_view_users' %}">
+                  <div class="card-body">
+                    <div class="d-flex">
+                      <div class="flex-grow-1">
+                        <p class="text-muted fw-medium">Total User</p>
+                        <h4 class="mb-0">{{total_profile}}</h4>
+                      </div>
+
+                      <div class="flex-shrink-0 align-self-center">
+                        <div class="avatar-sm rounded-circle bg-primary mini-stat-icon">
+                          <span class="avatar-title rounded-circle bg-success">
+                            <i class="fa fa-user font-size-24"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <div class="card mini-stats-wid">
+                <a href="{% url 'admin_panel_view_active_user' %}">
+                  <div class="card-body">
+                    <div class="d-flex">
+                      <div class="flex-grow-1">
+                        <p class="text-muted fw-medium">Total Active User</p>
+                        <h4 class="mb-0">{{total_active_user}}</h4>
+                      </div>
+
+                      <div class="flex-shrink-0 align-self-center">
+                        <div class="avatar-sm rounded-circle bg-primary mini-stat-icon">
+                          <span class="avatar-title rounded-circle bg-success">
+                            <i class="fa fa-user font-size-24"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="row">
+            <div class="col">
+
+              <div class="card mini-stats-wid">
+                <a href="{% url 'admin_panel_view_inactive_user' %}">
+                  <div class="card-body">
+                    <div class="d-flex">
+                      <div class="flex-grow-1">
+                        <p class="text-muted fw-medium">Total Inactive User</p>
+                        <h4 class="mb-0">{{total_inactive_user}}</h4>
+                      </div>
+
+                      <div class="flex-shrink-0 align-self-center">
+                        <div class="avatar-sm rounded-circle bg-primary mini-stat-icon">
+                          <span class="avatar-title rounded-circle bg-success">
+                            <i class="fa fa-user font-size-24"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-xl-9">
+
+          <div class="row">
+
+            <div class="col-md-12">
+
+              <div class="card">
+                <div class="card-body">
+
+                  <div id="user_chart" class="apex-charts" dir="ltr"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+      </div>
+  </div>
+</div>
+</div>
+
+<script>
+
+// user chart
+  var options={chart:{height:350,type:"line",zoom:{enabled:!1},toolbar:{show:!1}},
+  colors:["#556ee6","#f46a6a","#34c38f", '#FF69B4'],
+  dataLabels:{enabled:!1},stroke:{width:[3,4,3],curve:"straight",dashArray:[0,8,5]},
+  series:[
+  {name:"Total User",data:[{% for u in user_list %}
+  
+                            {{u.count}},  
+                        
+                            {% endfor %}]},
+
+  {name:"Active User",data:[{% for p in active_user_list %}
+                                      {{p.count}},  
+                                      
+                                      {% endfor %}]},
+
+  {name:"Inactive User",data:[{% for p in inactive_user_list %}
+                                      {{p.count}},  
+                                      
+                                      {% endfor %}]},
+
+  {name:"User Post",data:[{% for i in post_list %}
+  
+                            {{i.count}},  
+                        
+                            {% endfor %}]},
+  ],
+
+  title:{text:"User Graph",align:"left",style:{fontWeight:"500"}},
+  markers:{size:0,hover:{sizeOffset:6}},
+
+  xaxis:{categories:[{% for m in month_list %}'{{m}}',{% endfor %}]},
+  tooltip:{y:[{title:{formatter:function(e){return e+""}}},{title:{formatter:function(e){return e+""}}},
+  {title:{formatter:function(e){return e}}}]},grid:{borderColor:"#f1f1f1"}};
+  (chart=new ApexCharts(document.querySelector("#user_chart"),options)).render();
+
+
+</script>
+
+{% endblock %}

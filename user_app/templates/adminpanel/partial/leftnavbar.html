@@ -1,0 +1,114 @@
+<style>
+    .sidebar-enable.vertical-collpsed .mm-show{
+        overflow: initial !important;
+    }
+    .mm-show{
+        height: 100%;
+        overflow: hidden auto;
+    }
+    .sidebar-enable.vertical-collpsed #sidebar-menu{
+        position: sticky;
+        top: -60px;
+    }
+
+    .mm-show::-webkit-scrollbar{
+    background-color: transparent;
+    width:6px;
+    }
+    .mm-show::-webkit-scrollbar-thumb{
+        background-color:#6a7187;
+        border-radius:12px;
+    }
+    
+    
+
+</style>
+<div class="vertical-menu ">
+
+    <div class="mm-show">
+
+        <div id="sidebar-menu">
+            <!-- Left Menu Start -->
+            <ul class="metismenu list-unstyled" id="side-menu">
+                <li class="menu-title" key="t-menu">Menu</li>
+                <li>
+                    <a href="{% url 'dashboard' %}" class="waves-effect">
+                        <i class="bx bx-home-circle"></i>
+                        <span key="t-dashboards">Dashboard</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a class="has-arrow waves-effect">
+                        <i class="fa fa-user"></i>
+
+                        <span key="t-ecommerce">User</span>
+                    </a>
+                    <ul class="sub-menu custom-close-sidebar" aria-expanded="true">
+                        <li><a href="{% url 'admin_panel_view_users' %}" key="t-level-1-2">Total User</a></li>
+                        <li><a href="{% url 'admin_panel_view_active_user' %}" key="t-level-1-5"> Active user</a></li>
+                        <li><a href="{% url 'admin_panel_view_inactive_user' %}" key="t-level-1-6">Inactive User</a>
+                        </li>
+                       
+                    </ul>
+                </li>
+                <li>
+                    <a class="has-arrow waves-effect">
+                        <i class="fa fa-user"></i>
+
+                        <span key="t-ecommerce">Files</span>
+                    </a>
+                    <ul class="sub-menu custom-close-sidebar" aria-expanded="true">
+                        <li><a href="{% url 'posts-page' %}" key="t-level-1-6">Total Files</a>
+                        </li>
+                       
+                    </ul>
+                </li>
+
+
+
+            </ul>
+        </div>
+    </div>
+</div>
+<style>
+
+  body[data-sidebar="dark"].vertical-collpsed{
+    min-height:100vh !important;
+  }
+  .postion-sticky-rickshaw{
+    position: sticky;
+    top: 70px;
+  }
+</style>
+
+<script>
+    const sidebar_li = document.querySelectorAll('.custom-close-sidebar li');
+    const sidebar = document.querySelector('.custom-rickkshaw');
+
+    window.addEventListener('DOMContentLoaded', (event) => {
+    sidebar_li.forEach(li=>{
+        if(li.classList.contains('mm-active')){
+            sidebar.classList.add('vertical-collpsed')
+        }
+    })
+    if(location.pathname.includes('admin_panel_search_user')){
+        sidebar.classList.add('vertical-collpsed')
+    }
+
+    let sticky = document.querySelector('.simplebar-content');
+    sticky.classList.add('postion-sticky-rickshaw')
+});
+</script>
+
+<script>
+    let sidebar_lis =  document.querySelectorAll('.metismenu>li');
+    if(window.innerHeight <= 700){
+      let ul = sidebar_lis[sidebar_lis.length -1].querySelector('ul.sub-menu');
+      ul.classList.add('bottom-60')
+    }
+    if( window.innerHeight <= 620){
+      let ul = sidebar_lis[sidebar_lis.length -2].querySelector('ul.sub-menu');
+      ul.classList.add('bottom-60')
+    }
+  </script>

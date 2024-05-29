@@ -1,0 +1,48 @@
+
+{% extends 'user_app/index.html' %}
+{% block title %} Login {% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <div class="row">
+        <div class="col-sm-8 mx-auto mt-5">
+            <div class="alert alert-info text-primary" role="alert">
+                    <h1>
+                Login</h1>
+            </div>
+
+
+            <form method="post">
+              {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
+                    <span class="toggle-btn" onclick="togglePasswordVisibility()">👁️</span>
+                  </div>
+                  <script>
+                    function togglePasswordVisibility() {
+                        var passwordInput = document.getElementById("exampleInputPassword1");
+                        if (passwordInput.type === "password") {
+                            passwordInput.type = "text";
+                        } else {
+                            passwordInput.type = "password";
+                        }
+                    }
+                </script>
+
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Password</label>
+                  <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+                </div>
+
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
