@@ -188,6 +188,3 @@ def update_password(request):
         form = UpdatePasswords(request.POST)
         context['form'] = form
     return render(request,'update_password.html',context)
-
-
-
